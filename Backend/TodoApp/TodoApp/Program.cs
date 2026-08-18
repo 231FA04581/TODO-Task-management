@@ -48,15 +48,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// MySQL Database
+// Get database connection string
+var connectionString = builder.Configuration
+    .GetConnectionString("DefaultConnection");
+
+// SQL Server Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(
-            builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
-});
+    options.UseSqlServer(connectionString));
 
 // Services
 builder.Services.AddScoped<JwtService>();
